@@ -8,5 +8,4 @@
   - `< file` and `> file` can rewrite the input and output streams of a program to a file
   - `>>` 可append 
   - `|` lets you "chain" programs such that the output of one is the input of another.
-- [Shell中不同类型quates的含义](https://www.gnu.org/software/bash/manual/html_node/Quoting.html)
-- 
+- [Shell中不同类型quates的含义](https://www.gnu.org/software/bash/manual/html_node/Quoting.html) 
