@@ -8,9 +8,13 @@
 
 2. Introduction to Operating Systems
     - Three Pieces: **Virtualization, Conccurent, Persisetnce**.
+   
    **CRUX**: how to virutalize resources.
+   
    **CRUX**: how to build correct concurrent programs.
+   
    **CRUX**: how to store data persistenlty?
+   
     - **Von Neumann**
     - CPU is sometimes know as a resource manager.
     - Some concepts: virtualization, API, System calls, Standard Library.

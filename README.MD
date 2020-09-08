@@ -30,7 +30,7 @@
    - Vue(for full-stack project)
 
 6. **Web** server:
-   - Nginx/OpenResty
+   - [Nginx](HTTP-Server/Nginx.md)/OpenResty
 
 7. **Security**
    - DVWA
