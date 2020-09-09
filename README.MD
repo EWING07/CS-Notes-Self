@@ -16,6 +16,7 @@
    - Vim
    - Git
    - [Shell](missing-semester/Shell.md)
+   - Redis
    - MarkDown
 
 4. **Language**:
@@ -30,7 +31,7 @@
    - Vue(for full-stack project)
 
 6. **Web** server:
-   - [Nginx](HTTP-Server/Nginx.md)/OpenResty
+   - [Nginx](HTTP-Server/Nginx.md)/[OpenResty](HTTP-Server/OpenResty.md)
 
 7. **Security**
    - DVWA
