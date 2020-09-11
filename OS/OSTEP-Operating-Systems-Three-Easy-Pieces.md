@@ -43,21 +43,21 @@
 
   **CRUX**: How to provide the illusion of many CPUs?
 
-    - time sharing of the CPU allows users to run as many concurrent processes as they would like
-    - low-level machinery : **mechanisms**: low-level methods or protocols that implement a needed piece of functionality.
-    - Policies arfe algorithm for making some kind of decision within the OS. 在很多os中，共同的设计是将policy和mechanism分开，使用模块化。
-    - machine state: memory(指令和数据都在其中), registers: PC aka IP告诉我们下一条会执行的指令, stack pointer& frame pointer用来管理函数参数，局部变量和返回地址的栈
-    - Process API：
-      - Creat、Destory、Wait、Miscellaneous Control、Status
-    - Process Creation
-      - load lazily: paging and swapping
-      - run-time stack; heap(malloc(),free()):for dynamically-allocated data
-      - I/O setups: default file descriptors
-    - Process States
-      - Running, Ready, Blocked
+  - time sharing of the CPU allows users to run as many concurrent processes as they would like
+  - low-level machinery : **mechanisms**: low-level methods or protocols that implement a needed piece of functionality.
+  - Policies arfe algorithm for making some kind of decision within the OS. 在很多os中，共同的设计是将policy和mechanism分开，使用模块化。
+  - machine state: memory(指令和数据都在其中), registers: PC aka IP告诉我们下一条会执行的指令, stack pointer& frame pointer用来管理函数参数，局部变量和返回地址的栈
+  - Process API：
+    - Creat、Destory、Wait、Miscellaneous Control、Status
+  - Process Creation
+    - load lazily: paging and swapping
+    - run-time stack; heap(malloc(),free()):for dynamically-allocated data
+    - I/O setups: default file descriptors
+  - Process States
+    - Running, Ready, Blocked
       ![state-transitions](state-trans.png)
-    - Data Structures: process list, PCB
-      - xv6 process structure
+  - Data Structures: process list, PCB
+    - xv6 process structure
       ```cpp
       // the registers xv6 will save and restore
       // to stop and subsequently restart a process
