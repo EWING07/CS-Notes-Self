@@ -1,7 +1,7 @@
 # Operating Systems Three Easy Pieces
 
 ### Topic: Virtulaization, Concurrency, Persistence
-[Textbook](http://pages.cs.wisc.edu/~remzi/OSTEP/)
+[Textbook](http://pages.cs.wisc.edu/~remzi/OSTEP/),[BookCode](https://github.com/remzi-arpacidusseau/ostep-code),[Projects](https://github.com/remzi-arpacidusseau/ostep-projects),[Homework](https://github.com/remzi-arpacidusseau/ostep-homework/),[CheatSheet](https://github.com/xxyzz/ostep-hw),[MIT6.826](https://pdos.csail.mit.edu/6.828/2020/schedule.html)
 ## Intro
 1. Dialogue
    I hear and I forget. I see and I remeber. I do and I understand.
