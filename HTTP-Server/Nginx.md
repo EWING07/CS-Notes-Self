@@ -32,3 +32,19 @@
       - **ip_hash**：每个请求按照发起客户端的 ip 的 hash 结果进行匹配，这样的算法下一个固定 ip 地址的客户端总会访问到同一个后端服务器，这也在一定程度上解决了集群部署环境下 Session 共享的问题。
       - **fair**：智能调整调度算法，动态的根据后端服务器的请求处理到响应的时间进行均衡分配。响应时间短处理效率高的服务器分配到请求的概率高，响应时间长处理效率低的服务器分配到的请求少，它是结合了前两者的优点的一种调度算法。但是需要注意的是 Nginx 默认不支持 fair 算法，如果要使用这种调度算法，请安装 upstream_fair 模块。
       - **url_hash**：按照访问的 URL 的 hash 结果分配请求，每个请求的 URL 会指向后端固定的某个服务器，可以在 Nginx 作为静态服务器的情况下提高缓存效率。同样要注意 Nginx 默认不支持这种调度算法，要使用的话需要安装 Nginx 的 hash 软件包。
+3. 日志
+   Nginx 日志主要有两种：access_log(访问日志) 和 error_log(错误日志)。
+   1. access_log访问日志
+      1. access_log 主要记录客户端访问 Nginx 的每一个请求，格式可以自定义。通过 access_log 你可以得到用户地域来源、跳转来源、使用终端、某个 URL 访问量等相关信息。
+      2. log_format 指令用于定义日志的格式，语法: log_format name string; 其中 name 表示格式名称，string 表示定义的格式字符串。log_format 有一个默认的无需设置的组合日志格式。
+      3. 默认的无需设置的组合日志格式
+         ```conf
+         log_format combined '$remote_addr - $remote_user  [$time_local]  '
+                    ' "$request"  $status  $body_bytes_sent  '
+                    ' "$http_referer"  "$http_user_agent" ';
+         ``` 
+        access_log 指令用来指定访问日志文件的存放路径（包含日志文件名）、格式和缓存大小，语法：`access_log path [format_name [buffer=size | off]]; `其中 path 表示访问日志存放路径，format_name 表示访问日志格式名称，buffer 表示缓存大小，off 表示关闭访问日志。
+        [定义日志使用的字段及其作用](https://moonbingbing.gitbooks.io/openresty-best-practices/content/ngx/nginx_log.html)
+    2. error_log错误日志
+       1. error_log 主要记录客户端访问 Nginx 出错时的日志，格式不支持自定义。通过查看错误日志，你可以得到系统某个服务或 server 的性能瓶颈等。因此，将日志利用好，你可以得到很多有价值的信息。
+       2. error_log 指令用来指定错误日志，语法: `error_log path [level];` 其中 path 表示错误日志存放路径，level 表示错误日志等级，日志等级包括 debug、info、notice、warn、error、crit、alert、emerg，从左至右，日志详细程度逐级递减，即 debug 最详细，emerg 最少，默认为 error。
