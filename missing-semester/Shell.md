@@ -34,7 +34,7 @@
          7. `!!` - 完整到上一条命令，包括参数。常见应用：当你因为权限不足执行命令失败时，可以使用 sudo !!再尝试一次。
          8. `$_` - 上一条命令的最后一个参数。如果你正在使用的是交互式shell，你可以通过按下`Esc`之后键入 . 来获取这个值。
       3. [Linux中，&和&&, |和|| ,&> 与 >的区别](https://blog.csdn.net/sunfengye/article/details/78973831)
-2. [Linux-Shell中国各种替换的辨析](https://www.cnblogs.com/chengd/p/7803664.html)
+2. [Linux-Shell中各种替换的辨析](https://www.cnblogs.com/chengd/p/7803664.html)
    1. 命令通常使用 `STDOUT`来返回输出值，使用`STDERR` 来返回错误及错误码，便于脚本以更加友好到方式报告错误。 返回码或退出状态是脚本/命令之间交流执行状态到方式。返回值0表示正常执行，其他所有非0的返回值都表示有错误发生。
    2. 退出码可以搭配`&&` (与操作符) 和`||` (或操作符)使用，用来进行条件判断，决定是否执行其他程序。同一行的多个命令可以用 ; 分隔。程序`true`的返回码永远是0，`false`的返回码永远是1。
    ```shell
@@ -119,7 +119,7 @@
    1. Ctrl-a光标移动到行前
    2. ESC进入Vim-mode，ESC-v进入Vim直接编辑
 6. 练习
-   1. ls -laht
+   1. `ls -laht`
    2. macro记录pwd，polo进入
       ```shell
       #!/bin/bash
