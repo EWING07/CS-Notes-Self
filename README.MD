@@ -16,8 +16,8 @@
    - Vim
    - Git
    - [Shell](missing-semester/Shell.md)
-   - Redis
-   - MarkDown
+   - [Redis](Tools/Redis.md)
+   - [MarkDown](Tools/Markdown.md)
 
 4. **Language**:
    - Golang:
@@ -35,7 +35,7 @@
 
 7. **Security**
    - DVWA
-   - Penetration test
+   - [Penetration test](Pentest/index.md)
    - WebSec Doc
    - *Hack the Box
 
