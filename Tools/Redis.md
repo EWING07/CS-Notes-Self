@@ -34,7 +34,7 @@
         redis 127.0.0.1:6379> HGET runoob field2
         "World"
         ```
-        实例中我们使用了 Redis `HMSET`, `HGET` 命令，`HMSET`设置了两个`field=>value`对,`HGET`获取对应`field`对应的`value`。每个 hash 可以存储 2^32^-1 键值对（40多亿）。
+        实例中我们使用了 Redis `HMSET`, `HGET` 命令，`HMSET`设置了两个`field=>value`对,`HGET`获取对应`field`对应的`value`。每个 hash 可以存储 2<sup>32</sup>-1 键值对（40多亿）。
     3. List
        1. Redis 列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。
        2. 实例：
@@ -92,3 +92,19 @@
         ```
 ## [Redis命令](https://www.runoob.com/redis/redis-commands.html)
 1. 连接命名：Redis客户端基本语法：`$ redis-cli`, 远程服务上执行命令：`$ redis-cli -h host -p port -a password`。(如果出现中文乱码：`$ redis-cli -h host -p port -a password`)
+2. Redis事务：可以一次执行多个命令，并且有三个重要保证：
+   1. 批量操作在发送 EXEC 命令前被放入队列缓存。
+   2. 收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行。
+   3. 在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中。
+3. 一个事务从开始到执行会经历以下三个阶段：
+   1. 开始事务。
+   2. 命令入队。
+   3. 执行事务。
+4. 以`MULTI`开始一个事务，然后将多命令入队到事务中，最后由`EXEC`命令出发事务，一并执行事务中的所有命令。
+5. 单个Redis命令的执行是原子性的，但是Redis没有在事务上增加任何维持原子性的机制，所有Redis事务的执行并不是原子性的。事务可以理解为一个打包的批量执行脚本，但批量指令并非原子化的操作，中间某条指令的失败不会导致前面已做指令的回滚，也不会造成后续的指令不做。
+6. Redis脚本使用lua解释器来执行。
+
+## [Redis高级编程](https://www.runoob.com/redis/redis-partitioning.html)
+1. Redis管道技术：基于服务端-客户端以及请求/响应协议的TCP服务，可以在服务端未响应的时候，客户端可以继续想服务端发送请求，并最终一次性读取所有服务端的响应。
+2. Redis分区：分区是分割数据到多个Redis实例的处理过程，因此每个实例只保存key的一个子集。有范围分区和hash分区两种。
+
