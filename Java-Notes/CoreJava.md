@@ -16,3 +16,6 @@ JDK-Java Deleopment Kit，JRE-Java Runtime Environment
 6. 三个特殊的浮点数：Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY和Double.NaN。用Double.isNaN(x)来判断是否为NaN。
 7. final表示常量，习惯上用全大写。
 8. 要检测两个字符串是否相等，需要使用equals，一定不要使用==运算符，因为这个运算符只能确定两个字符串是否放置在同一个位置上。如果虚拟机始终将相同的字符串共享，就可以使用==运算符检测是否相等。但实际上只有字符串常量是共享的，而+或substring等操作产生的结果并不是共享的。
+9. Java没有提供运算符重载功能，比如载大数值中需要用其类中的add和multiply方法。
+10. 数组拷贝使用Arrays.copyOf(luckyNumber, 2*luckyNumbers.length);
+11. java应用程序的main方法中，程序名并没有存储载args数组中。

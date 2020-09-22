@@ -111,6 +111,7 @@
        - 在调用进程内部执行一个可执行文件。可执行文件既可以是二进制文件，也可以是任何Linux下可执行的脚本文件。
        - exec函数族分别是：execl, execlp, execle, execv, execvp, execvpe
        - 函数原型：
+
           ```c
           #include <unistd.h>
           extern char **environ;
@@ -122,25 +123,18 @@
           int execvp(const char *file, char *const argv[]);
           int execvpe(const char *file, char *const argv[],char *const envp[]);
           ```
-      - 返回值：exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行
-      - 参数说明：
-        
-        path：可执行文件的路径名字
-        
-        arg：可执行程序所带的参数，第一个参数为可执行文件名字，没有带路径且arg必须以NULL结束
-        
-        file：如果参数file中包含/，则就将其视为路径名，否则就按 PATH环境变量，在它所指定的各目录中搜寻可执行文件。
 
-        exec族函数参数极难记忆和分辨，函数名中的字符会给我们一些帮助：
-        
-        l : 使用参数列表
-        
-        p：使用文件名，并从PATH环境进行寻找可执行文件
-        
-        v：应先构造一个指向各参数的指针数组，然后将该数组的地址作为这些函数的参数。
-        
-        e：多了envp[]数组，使用新的环境变量代替调用进程的环境变量
-    - [waitpid函数详解](https://blog.csdn.net/Roland_Sun/article/details/32084825)
-    - STDOUT_FILENO：向屏幕输出，STDIN_FILENO：接收键盘的输入
-    - [read和write函数](https://www.cnblogs.com/xiehongfeng100/p/4619451.html)
-    - [Linux进程间通信方式之pipe](https://blog.csdn.net/yangwen123/article/details/14118733?utm_medium=distribute.pc_relevant.none-task-blog-title-1&spm=1001.2101.3001.4242)
+       - 返回值：exec函数族的函数执行成功后不会返回，调用失败时，会设置errno并返回-1，然后从原程序的调用点接着往下执行
+       - 参数说明：
+         - path：可执行文件的路径名字
+         - arg：可执行程序所带的参数，第一个参数为可执行文件名字，没有带路径且arg必须以NULL结束
+         - file：如果参数file中包含/，则就将其视为路径名，否则就按 PATH环境变量，在它所指定的各目录中搜寻可执行文件。
+         - exec族函数参数极难记忆和分辨，函数名中的字符会给我们一些帮助：
+         - l : 使用参数列表
+         - p：使用文件名，并从PATH环境进行寻找可执行文件
+         - v：应先构造一个指向各参数的指针数组，然后将该数组的地址作为这些函数的参数。
+         - e：多了envp[]数组，使用新的环境变量代替调用进程的环境变量
+     - [waitpid函数详解](https://blog.csdn.net/Roland_Sun/article/details/32084825)
+     - STDOUT_FILENO：向屏幕输出，STDIN_FILENO：接收键盘的输入
+     - [read和write函数](https://www.cnblogs.com/xiehongfeng100/p/4619451.html)
+     - [Linux进程间通信方式之pipe](https://blog.csdn.net/yangwen123/article/details/14118733?utm_medium=distribute.pc_relevant.none-task-blog-title-1&spm=1001.2101.3001.4242)
