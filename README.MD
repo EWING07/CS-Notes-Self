@@ -2,12 +2,12 @@
 
 # Study Plan for this deferring year
 1. **Algorithm**: 
-   - LeetCode(using golang for the 2nd round)
-   - Write notes about some algorithms for reviewing
+   - [LeetCode\(2nd round\)](Alogrithm/LeetCodeNotes.md)
+   - [Algorithms Learning](Alogrithm/LearningNotes.md)
    - *mock onsite interview
 
 2. **Courses**:
-   - OS: [Three Easy Pieces](OS/OSTEP-Operating-Systems-Three-Easy-Pieces.md) reference MIT6.828
+   - OS: [Three Easy Pieces](OS/OSTEP-Operating-Systems-Three-Easy-Pieces.md) reference [MIT6.828](OS/MIT6.828.md)
    - DB: COMPSCI 186
    - Distributed Systems: MIT 6.824
    - *Computer-Networking: Stanford CS144
@@ -20,7 +20,8 @@
    - [MarkDown](Tools/Markdown.md)
 
 4. **Language**:
-   - Golang:
+   - [Java](Java-Notes/index.md)
+   - [Golang](Languages/GoNotes.md): may be for 2021
        - One full-stack project
        - Sourcecode 
        - Ultimate Go Study Guide
