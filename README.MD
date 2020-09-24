@@ -38,6 +38,7 @@
    - DVWA
    - [Penetration test](Pentest/index.md)
    - WebSec Doc
+   - [WAF](Security/WAF.md)
    - *Hack the Box
 
 PS: Remember to write notes for better understanding and future reviewing. 
