@@ -143,18 +143,49 @@
      - [Linux进程间通信方式之pipe](https://blog.csdn.net/yangwen123/article/details/14118733?utm_medium=distribute.pc_relevant.none-task-blog-title-1&spm=1001.2101.3001.4242)
   
 4. **Mechanism: Limited Direct Execution**
-   1. CRUX: how to efficiently virtualize the CPU with control?
+   1. **CRUX**: how to efficiently virtualize the CPU with control?
       - limited direct execution
-   2. Problem1: Restricted Operations
-   3. CRUX: how to perform restricted operations?
-      1. aside: open()和read()这些系统调用是trap call，写好了汇编，参数和系统调用号都放入了well-known的地方
-      2. trap into the kernel return-from-trap, trap table, trap handler.
+   2. **Problem1: Restricted Operations**
+      1. **CRUX**: how to perform restricted operations?
+      2. aside: open()和read()这些系统调用是trap call，写好了汇编，参数和系统调用号都放入了well-known的地方
+      3. trap into the kernel return-from-trap, trap table, trap handler.
          1. on x86, per-process kernel stack, 用于进程的寄存器值，以便trap的时候寄存器够。
          2. 如何控制：set up trap table at boot time; 直j进任何内核地址是very bad idea
          3. user mode 不能 I/O request
-      3. system call: accessing the file system, create and destroy processes, communicate with other processes, and allocate more memory(POSIX standard)
+      4. system call: accessing the file system, create and destroy processes, communicate with other processes, and allocate more memory(POSIX standard)
          1. 告诉硬件trap table在哪是privileged operation
          2. protection：user code放置desired system-call number，OS操作的时候看trap handler中的这个号码是否有效。
-      4. LDE有两个阶段：1)kernel初始化trap table， CPU记住它的位置为了之后使用（通过privileged instruction） 2)kernel设置一些事（分配节点到进程表，分配memory）在使用一个return-from-trap instruction之前去开始进程的运行。
+      5. LDE有两个阶段：1)kernel初始化trap table， CPU记住它的位置为了之后使用（通过privileged instruction） 2)kernel设置一些事（分配节点到进程表，分配memory）在使用一个return-from-trap instruction之前去开始进程的运行。
 
       ![LDE-Protocol](LDE-Protocol.png)
+   3. **Problem 2: Switching Between Processes**
+      1. **CRUX**: How to regain control of the CPU?
+      2. A Cooperative approach: wait for system calls, yield syscall转移control to the OS。
+         1. NOTE: only solution to infinite loops is to reboot the machine, reboot is useful.
+         2. 重启的意义：1）回到确定无误的初始状态；2）回收过期和泄漏的资源；3）不仅适合手动操作，也易于自动化
+      3. A Non-Cooperative approach: The OS takes control
+         1. CRUX: How to gain control without copperation?
+         2. a timer interrupt and interrupt handler
+            1. start the timer is a priviledged operation
+            2. timer can be turned off
+         3. deal with misbehavior: in modern systems, the way the OS tries to handle such malfeasance is to simply terminate the offender.
+         4. scheduler context switch
+          ![timer_interrupt](timer-interrupt.png)
+
+         5. 注意有两种形式的register saves/restores:
+            1. timer interrupt: 用hardware, kernerl stack, implicitly, 存user registers.
+            2. OS switch: 用software, process structure, explicitly, 存kernel registers
+            3. e.gL xv6 context switch code.
+         6. Note:
+            1. 如何测context switch的成本：[LMbench](https://winddoing.github.io/post/54953.html)
+            2. 如何处理concurrency? => locking schemes, disable interrupts 
+            3. memory bandwidth 很多年没有明显变快。
+            4. baby-proofing
+   4. HW：
+      1. [pipe函数详解](https://blog.csdn.net/skyroben/article/details/71513385?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param)
+      2. [struct timeval结构体以及gettimeofday()函数](http://blog.chinaunix.net/uid-20548989-id-2533161.html)
+      3. [MacOS上没有sched.h](https://blog.csdn.net/judgejames/article/details/84256340)
+      4. [线程绑定CPU核-sched_setaffinity](https://blog.csdn.net/lanyzh0909/article/details/50404664)
+      5. [多核时代不宜再使用x86的RDTSC指令测试指令周期和时间](http://www.360doc.com/content/12/0827/17/7851074_232649576.shtml)
+      6. system call 大概0.47ms，context switch大概2ms。
+  

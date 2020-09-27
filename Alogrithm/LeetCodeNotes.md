@@ -24,7 +24,18 @@
   5. 3Sum和3Sum Closest: 利用双指针，并且注意重复结果的情况。
 
   6. 有效括号：利用栈的性质。
+  
+  7. [盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/solution/container-with-most-water-shuang-zhi-zhen-fa-yi-do/
+  )：利用双指针，向中间移动，比较面积
 
+  8. [字符串相乘优化](https://leetcode-cn.com/problems/multiply-strings/solution/you-hua-ban-shu-shi-da-bai-994-by-breezean/)：
+    ![优化](优化竖式.png)
+  
+  9. 反转字符串：双指针，反转字符串中的单词，可以使用java自带的函数strip和trim，以及利用stringbuilder对其进行操作。
+
+  10. 除自身之外相乘，考虑两部分，对角线的左上部分和右下部分。
+
+  11. 存在重复的元素，可以用set的特性，或者使用hashmap，除此之外还可以通过先对数组进行排序，比较相邻元素是否相等来进行判断。
 
 ## String
 
