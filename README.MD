@@ -8,7 +8,7 @@
 
 2. **Courses**:
    - OS: [Three Easy Pieces](OS/OSTEP-Operating-Systems-Three-Easy-Pieces.md) reference [MIT6.828](OS/MIT6.828.md)
-   - DB: COMPSCI 186
+   - [DB](DBMS/ForInterveiw.md): COMPSCI 186
    - Distributed Systems: MIT 6.824
    - *Computer-Networking: Stanford CS144
 
