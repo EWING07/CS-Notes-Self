@@ -37,6 +37,10 @@
 
   11. 存在重复的元素，可以用set的特性，或者使用hashmap，除此之外还可以通过先对数组进行排序，比较相邻元素是否相等来进行判断。
 
+  12. 环形链表：使用快慢指针，面试喜欢考。关于其他链表的面试问题总结，可以参考：[一文搞定常见的链表问题](https://leetcode-cn.com/problems/linked-list-cycle/solution/yi-wen-gao-ding-chang-jian-de-lian-biao-wen-ti-h-2/)，follow up：如果存在环，如何判断环的长度呢？方法是：快慢指针相遇后继续移动，知道第二次相遇。两次相遇的移动次数即为环的长度。
+  
+  13. [环形链表2](https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/linked-list-cycle-ii-kuai-man-zhi-zhen-shuang-zhi-/): 快慢指针，两次相遇，第一次相遇后慢指针走了a+nb，要想找到环的入口，需要让慢指针再走a步，但是我们不知道a的指是多少，因此需要将快指针重新指向head，slow和fast同时每轮向前走一步，当第二次相遇的时候，这时候同时指向链表环的入口（a指链表头部到链表环入口的距离，b指链表环的长度） 
+
 ## String
 
 - Day 1: 14/58/387/383/415

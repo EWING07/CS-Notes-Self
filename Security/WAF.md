@@ -1,5 +1,7 @@
 # WAF安全应用防火墙
 
+> [网路扫描技术原理](https://zhyjc6.github.io/posts/2019/11/03/%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86.html)
+
 ## 了解WAF
 
 1. 定义
