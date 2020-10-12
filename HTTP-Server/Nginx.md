@@ -130,3 +130,47 @@
 
             这块的主要作用是基于nginx服务器接收的请求字符串（例如：server_name/uri-string），对虚拟主机名称（也可以是IP别名）之外的字符串（例如：前面的/uri-string）进行匹配，对特定的请求进行处理。地址定向、数据缓存和应答控制等功能，还有许多第三方模块的配置也在这里进行。
 
+   2. 配置实例1：反向代理
+
+      - 实现效果
+
+        - 打开浏览器，在浏览器地址栏输入地址www.123.com，跳转linux系统tomcat主页面。
+
+      - 准备工作
+
+        1. 在linux系统中安装tomcat，使用默认端口8080.
+
+           - tomcat安装文件放到linux中，解压
+
+           - 进入tomcat的bin目录中，`./startup.sh`启动tomcat服务器
+
+        2. 对外开放访问的端口8080
+
+           ```shell
+           firewall-cmd --list-all	#	查看已经开放的端口号
+           firewall-cmd --add-port=8080/tcp --permanent	#	设置对外开放端口8080
+           firewall-cmd --reload	#	重新加载
+           ```
+
+        3. 测试：在主机上打开浏览器访问tomcat服务器
+
+      - 访问过程分析：
+
+        ![image-20201012172348407](/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012172348407.png)
+
+      - 具体配置
+
+        1. 在host文件中中配置域名映射的ip地址
+
+        <img src="/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012172859146.png" alt="image-20201012172859146" style="zoom:50%;" />
+
+        2. 在nginx中进行请求转发的配置（反向代理的设置）
+
+           <img src="/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012173415285.png" alt="image-20201012173415285" style="zoom:50%;" />
+
+           补充：[proxy_pass详解](https://blog.csdn.net/aerchi/article/details/84968106)
+
+        3. 在主机浏览器中访问设置的域名
+
+           ![image-20201012175508641](/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012175508641.png)
+
