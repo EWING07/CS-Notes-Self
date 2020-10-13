@@ -156,21 +156,32 @@
 
       - 访问过程分析：
 
-        ![image-20201012172348407](/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012172348407.png)
+        ![image-20201012172348407](image-20201012172348407.png)
 
       - 具体配置
 
         1. 在host文件中中配置域名映射的ip地址
 
-        <img src="/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012172859146.png" alt="image-20201012172859146" style="zoom:50%;" />
+        <img src="image-20201012172859146.png" alt="image-20201012172859146" style="zoom:50%;" />
 
         2. 在nginx中进行请求转发的配置（反向代理的设置）
 
-           <img src="/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012173415285.png" alt="image-20201012173415285" style="zoom:50%;" />
+           <img src="image-20201012173415285.png" alt="image-20201012173415285" style="zoom:50%;" />
 
            补充：[proxy_pass详解](https://blog.csdn.net/aerchi/article/details/84968106)
 
         3. 在主机浏览器中访问设置的域名
 
-           ![image-20201012175508641](/Users/ewing/Documents/GitHub/CS-Notes-Self/HTTP-Server/image-20201012175508641.png)
+           ![image-20201012175508641](image-20201012175508641.png)
+      
+   3. 配置实例2-负载均衡
+   
+      1. 实现效果：浏览器地址栏输入地址http://10.211.55.28/edu/a.html，负载均衡效果，平级8080和8081端口中。
+   
+      2. 准备工作
+   
+         1. 准备两台tomcat服务器，一台8080，一台8081
+         2. 在两台tomcat里的webapps目录中创建名称是edu的文件夹，在edu文件夹中创建页面a.html，用于测试。
+   
+         
 
