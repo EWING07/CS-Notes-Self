@@ -63,8 +63,17 @@
 
 21. 数组中第K个最大元素：常规思路sort之后返回第k大个。还可以使用优先队列，维护一个size为K的最小堆。除此之外，还可以使用快排。参考：[Java中PriorityQueue详解](https://www.cnblogs.com/Elliott-Su-Faith-change-our-life/p/7472265.html)
 
+22. BST中第K小的元素：使用中in order遍历
+
+23. 二叉树的最大深度，递归
+
+24. 二叉树中的最大路径和：递归+dp：`maxsum = Math.max(maxsum, leftGain + rightGain + node.val)`，需要注意的是，返回的是`node.val + Math.max(leftGain, rightGain)`
+
+25. [公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/solution/236-er-cha-shu-de-zui-jin-gong-gong-zu-xian-hou-xu/)：参考链接思路，但是对于bst的最近公共祖先，可以利用其性质根据`(root.val - p.val) * (root.val - q.val)`大于0和小于0的情况来进行遍历。
+
 ## String
 
 - Day 1: 14/58/387/383/415
   - HashMap可以解决字符串次数方面的问题，例如找到字符串中的第一唯一字符
   - java中`trim()`方法：用于删除字符串的头尾空白符
+
