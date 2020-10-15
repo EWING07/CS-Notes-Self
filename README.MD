@@ -30,9 +30,9 @@
 6. **Web** server:
    - [Nginx](HTTP-Server/Nginx.md)/[OpenResty](HTTP-Server/OpenResty.md)
 7. **Security**
-   - DVWA
-   - [Penetration test](Pentest/index.md)
-   - [WebSec](Security/geekbang课程.md)
+   - [Web Security](Security/WebSec.md)
+   - [Penetration test](Security/Pentest/index.md)
+   - [GeekBang-Course](Security/geekbang课程.md)
    - [WAF](Security/WAF.md)
    - *Hack the Box
 8. **Network**
