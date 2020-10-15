@@ -71,6 +71,10 @@
 
 25. [公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/solution/236-er-cha-shu-de-zui-jin-gong-gong-zu-xian-hou-xu/)：参考链接思路，但是对于bst的最近公共祖先，可以利用其性质根据`(root.val - p.val) * (root.val - q.val)`大于0和小于0的情况来进行遍历。
 
+26. 回溯算法专题参考：[什么叫回溯算法，一看就会，一写就废](https://mp.weixin.qq.com/s?__biz=MzU0ODMyNDk0Mw==&mid=2247488558&idx=1&sn=bb600c06c773960b3f4536c4c6c8d948&chksm=fb41870ecc360e18db1ca13783050d1a2efb19579407587baeea9b258a92e4c90c7ad12cbc1a&scene=21#wechat_redirect)
+
+27. 格雷编码：[镜像反射法](https://leetcode-cn.com/problems/gray-code/solution/gray-code-jing-xiang-fan-she-fa-by-jyd/), 设n阶格雷码集合为G(n)，那么G(n+1)的格雷码是G(n)与其倒序集合中每个元素二进制形式前面添加1的集合R'(n)的拼接。
+
 ## String
 
 - Day 1: 14/58/387/383/415
