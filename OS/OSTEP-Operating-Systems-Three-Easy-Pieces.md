@@ -117,11 +117,11 @@ I hear and I forget. I see and I remeber. I do and I understand.
     - 在调用进程内部执行一个可执行文件。可执行文件既可以是二进制文件，也可以是任何Linux下可执行的脚本文件。
     - exec函数族分别是：execl, execlp, execle, execv, execvp, execvpe
 - 函数原型：
-    
+  
        ```c
        #include <unistd.h>
    extern char **environ;
-    
+   
        int execl(const char *path, const char *arg, ...);
        int execlp(const char *file, const char *arg, ...);
        int execle(const char *path, const char *arg,..., char * const envp[]);
@@ -145,6 +145,7 @@ I hear and I forget. I see and I remeber. I do and I understand.
   - STDOUT_FILENO：向屏幕输出，STDIN_FILENO：接收键盘的输入
   - [read和write函数](https://www.cnblogs.com/xiehongfeng100/p/4619451.html)
   - [Linux进程间通信方式之pipe](https://blog.csdn.net/yangwen123/article/details/14118733?utm_medium=distribute.pc_relevant.none-task-blog-title-1&spm=1001.2101.3001.4242)
+  ```
 
 ### **Mechanism: Limited Direct Execution**
 
@@ -240,4 +241,56 @@ I hear and I forget. I see and I remeber. I do and I understand.
    - Response time will increase.
      `The nth job's response time = (n - 1) * q`
      `Average response time = (n - 1) * q / 2`
+
+### Scheduling: The Multi-Level Feedback Queue多级反馈队列
+
+- Corbato图灵奖
+
+**CRUX**: How to schedule without perfect knowledge? 
+
+*minimize response time for interactive jobs while also minimizing turnaround time without a priority knowledge of job length?*
+
+Tip: Learn from history
+
+1. Basic Rules
+
+   多个queue，每个queue对应一个priority，队内用RR
+
+   - **Rule 1**: If Priority(A) > Priority(B), A runs (B doesn’t).  
+   - **Rule 2:** If Priority(A) = Priority(B), A & B run in RR.
+
+   **Key**: How the scheduler sets priorities? based on observed behavior
+
+2. Attempt #1: How to change Priority
+
+   - **Rule 3:** When a job enters the system, it is placed at the highest priority (the topmost queue). 
+   - **Rule 4a**: If a job uses up an entire time slice while running, its priority is reduced (i.e., it moves down one queue). 
+   - **Rule 4b**: If a job gives up the CPU before the time slice is up, it stays at the same priority level.
+
+   MLFQ的问题：
+
+   - **Starvation**：too many interactive jobs lead to not receiving any CPU time for long-running jobs
+   - Game the scheduler: the idea of doing sth sneaky to trick the scheduler into giving u more than ur fair share of resource.
+   - Change its behavior
+
+3. Attempt #2: The Priority Boost
+
+   - **Rule 5**: After some time period S, move all the jobs in the system to the topmost queue.
+     - 部分地解决问题1和3
+     - S has that flavor. If it is set too high, long-running jobs could starve; too low, and interactive jobs may not get a proper share of the CPU
+     - Solaris：Default values for the table are 60 queues, with slowly increasing time-slice lengths from 20 milliseconds (highest priority) to a few hundred milliseconds (lowest),and priorities boosted around every 1 second or so，
+
+4. Attempt #3: Better Accounting
+
+   - **Rule 4**: Once a job uses up its time allotment at a given level (regardless of how many times it has given up the CPU), its priority is reduced (i.e., it moves down one queue).
+
+5. Tunning MLFQ And Other Issues
+
+   - 操作系统工作最高优先级
+   - advice机制：As the operating system rarely knows what is best for each and every process of the system, it is often useful to provide interfaces to allow usersor administrators to provide some hints to the OS. We often call such hints advice, as the OS need not necessarily pay attention to it, but rather might take the advice into account in order to make a better decision. Such hints are useful in many parts of the OS, including the scheduler(e.g., with **nice**), memory manager (e.g.,**madvise**), and file system (e.g.,informed prefetching and caching [P+95])
+
+6. HW
+
+   - time slice <= (max job length / jobs number)
+   - iobump，io结束后把进程调到当前队列第一位，否则最后一位；io越多效果越好
 

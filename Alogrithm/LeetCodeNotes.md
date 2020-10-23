@@ -9,7 +9,7 @@
 - reviewing problems solved in the 1st round
 - PS: think and do it, but think first.
 
-## 腾讯tag
+## Tencent tag
 
 1. 寻找两个正序数组的中位-hard
 
@@ -82,6 +82,46 @@
 30. [买卖股票的最佳时机](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/solution/mian-shi-ti-63-gu-piao-de-zui-da-li-run-dong-tai-2/)
 
 31. 不同路径：注意初始化边界为1，状态转移方程：`dp[i][j] = dp[i-1][j] + dp[i][j-1];`
+
+32. [LRU缓存设计](https://leetcode-cn.com/problems/lru-cache/solution/lru-ce-lue-xiang-jie-he-shi-xian-by-labuladong/)：HashMap+DoubleList
+
+33. 最小栈：使用两个栈，其中一个栈一直维护最小值，将其放在栈顶【注意使用ArrayDeque实现stack】
+
+34. Nim游戏：当为4的倍数的时候，对手总有办法最后一个拿
+
+## ByteDance Tag
+
+### 挑战字符串
+
+- 无重复字符的最长子串：使用滑动窗口，当遇到重复的元素的时候，将队列左边的元素移出即可
+- 最长公共前缀：使用indexOf函数和substring函数来实现，取字符串数组中一个字符串来进行匹配。
+- 字符串的排列：使用了回溯法，对每一位进行固定，并维护一个set对重复出现的字符进行剪枝。
+- 字符串相乘：模拟手算乘法，使用stringbuilder，并且反着来进行算，记得对中间乘值进行补零操作。
+- 翻转字符串里的单词：使用trim去除首位空格，然后使用split函数，对字符串进行分割，碰到空字符跳过，然后从后连接。
+- 简化路径：同样使用split函数进行分割，使用stack，遇到`..`时需要pop（stack非空的话），遇到非空和非`.`的情况需要push入栈，最后从stack底部开始读取，使用join函数拼接起来。
+- 复原IP地址：使用回溯，考虑的边界条件。
+
+### 数组与排序
+
+- 三数之和：使用双指针
+- 岛屿最大面积：使用递归（注意边界条件），并且遍历后需将节点标记。
+- 搜索选择排序数组，使用二分法，分条件进行判断。
+- 最长连续递增序列
+- 数组中的第k个最大元素：priorityqueue，维持一个只含有k个节点的最小堆
+- 最长连续序列：使用hashset，或者排序法。
+- 第k个排序：[数学方法](https://leetcode-cn.com/problems/permutation-sequence/solution/chao-guo-10000-pai-lie-zu-he-wu-di-gui-dai-ma-by-c/)，需要求出n-1的阶乘，选取数字
+- 朋友圈，使用dfs或者bfs，优先dfs。补充：学习[union find](https://leetcode-cn.com/problems/friend-circles/solution/union-find-suan-fa-xiang-jie-by-labuladong/)
+- [合并区间](https://leetcode-cn.com/problems/merge-intervals/solution/chi-jing-ran-yi-yan-miao-dong-by-sweetiee/), 先排序再比较区间起始位置
+- 接雨水：双指针，如果不理解可以自己模拟一遍。还可以考虑[单调栈](https://leetcode-cn.com/problems/trapping-rain-water/solution/dan-diao-zhan-jie-jue-jie-yu-shui-wen-ti-by-sweeti/)做法
+
+### 链表与树
+
+- 合并两个有序链表：递归
+- 反转链表：画图比较清晰
+- 两数相加：dfs
+- 排序链表：见上边Tencent tag
+- 环形链表二：双指针，两次相遇，第一次相遇后fast指向head/
+- 相交链表：见上边Tencent tag
 
 ## String
 

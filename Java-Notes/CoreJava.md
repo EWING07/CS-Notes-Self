@@ -123,3 +123,9 @@ JDK-Java Deleopment Kit，JRE-Java Runtime Environment
     5. 使用多态，而非类型信息：更容易维护和扩展。
     6. 不要过多地使用反射
 
+## Chapter 6 接口、lambda表达式与内部类
+
+### 接口
+
+1. 接口是对类的一组需求描述，这些类要遵从接口描述的统一格式进行定义
+2. 接口的本质是契约、

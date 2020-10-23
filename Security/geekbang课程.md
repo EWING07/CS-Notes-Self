@@ -58,3 +58,36 @@
   - UNION的作用：
   - <img src="image-20201014170754912.png" alt="image-20201014170754912" style="zoom:50%;" />
   -  information_schema数据库中保存着所有数据库和表结构信息。
+  
+- POST注入
+
+  - 定义&原理：
+    - 在HTTP常用方法中，POST方法提交的信息不存储与URL，而是存储在HTTP实体内容中，在大多的提交过程中，用户是无感知的。
+    - 且注入信息是存储于HTTP实体内容中而不是URL，通过改造实体内容，达到实际执行的SQL语句获取更多信息的目的。
+  - [group_concat()](https://blog.csdn.net/weixin_43997530/article/details/105627979?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param) 这个函数可以将一列拼接成一个字符串.
+
+- 判断SQL注入点
+
+  - 需要考虑的两个点
+
+    - 判断该访问目标URL是否存在SQL注入？
+    - 如果存在SQL注入，那么属于哪种SQL注入？
+
+  - 经典的单引号判断法
+
+    - 如果页面返回错误，则存在SQL注入，原因是无论字符型还是整型都会因为单引号个数不匹配而报错。
+
+  - 判断注入类型：
+
+    - 数字型
+
+      通常语句类型为select * from <表名> where id = x
+
+      我们通常构造and 1=1以及an 1=2 来判断
+
+    - 字符型
+
+      通常语句类型为select * from <表名> where id = 'x'
+
+      我们通常构造and '1'='1以及an '1'='2 来判断
+
