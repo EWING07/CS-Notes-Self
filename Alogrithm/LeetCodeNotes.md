@@ -122,8 +122,37 @@
 - 排序链表：见上边Tencent tag
 - 环形链表二：双指针，两次相遇，第一次相遇后fast指向head/
 - 相交链表：见上边Tencent tag
+- 合并k个升序链表：使用递归，利用合并两个list的函数，来进行合并
+- 二叉树的最近公共祖先：使用递归，变形：BST的最近公共祖先比较大小
+- 二叉树的锯齿形层次遍历：利用add()的性质，使用队列进行bfs
 
-## String
+### 动态或贪心
+
+- 股票问题见前面：维护一个profit和minprice
+- [最大正方形](https://leetcode-cn.com/problems/maximal-square/solution/li-jie-san-zhe-qu-zui-xiao-1-by-lzhlyle/)`dp[i][j] = min(dp[i-1][j],dp[i-1][j-1],dp[i][j-1])+1`
+- 最大子序和：`dp[i] = Math.max(dp[i-1] + nums[i], nums[i]); max = Math.max(dp[i], max);`
+- 三角形最小序列和：由底向上. `dp[i][j] = Math.min(dp[i+1][j],dp[i+1][j]) + triangle.get(i).get(j); # dp[i][j]表示点(i,j)到底的最小路径`
+- [俄罗斯套娃信封](https://leetcode-cn.com/problems/russian-doll-envelopes/solution/zui-chang-di-zeng-zi-xu-lie-kuo-zhan-dao-er-wei-er/)：二分法+LIS：**先对宽度 `w` 进行升序排序，如果遇到 `w` 相同的情况，则按照高度 `h` 降序排序。之后把所有的 `h` 作为一个数组，在这个数组上计算 LIS 的长度就是答案。**
+
+### 数据结构
+
+- 最小栈：维护两个stack，一个stack，一个min_stack。
+- LRU缓存机制：DoubleLinkedList + HashMap
+- [全O(1)的数据结构](https://leetcode-cn.com/problems/all-oone-data-structure/solution/java-mapshuang-lian-biao-by-gyz147/)：使用set
+
+### 拓展练习
+
+- x的平方根：二分法和牛顿
+- UTF-8编码验证：主要是题意理解，然后进行位运算。
+- 第二高的薪水：使用`IFNULL`函数、`LIMIT、OFFSET`关键字
+
+## 剑指OFFER
+
+
+
+## 按照Tag
+
+### String
 
 - Day 1: 14/58/387/383/415
   - HashMap可以解决字符串次数方面的问题，例如找到字符串中的第一唯一字符

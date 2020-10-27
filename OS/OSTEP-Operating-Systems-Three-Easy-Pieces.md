@@ -294,3 +294,74 @@ Tip: Learn from history
    - time slice <= (max job length / jobs number)
    - iobump，io结束后把进程调到当前队列第一位，否则最后一位；io越多效果越好
 
+### Scheduling: Proportional Share
+
+Proportional Share: fair-share shceduler, try to guarantee that each job obtain a certain percentage of CPU time
+
+Lottery Scheduling
+
+**CURX: How to share the CPU proportionally?**
+
+1. Basic Concept: Tickets Represent Your Share
+
+Tickets: 代表一个进程应该得到的资源
+
+利用Randomness：
+
+- 避免conrner case，LRU replacement policy （cyclic sequential）
+- lightweight
+- fast，越快越伪随机
+
+NOTE：
+
+如果对伪随机数限定范围，不要用rand，要用interval
+
+2. Ticket Mechanism
+
+- Ticket currency: 用户之间
+- ticket transfer: client/server
+- ticket inflation: 临时调整tickets，需要进程之间的信任
+
+3. Implementation
+
+a good random number generator to pick the winning ticket, a data structure to track the processes of the system and the total number of tickets.
+
+fairness metric
+
+4. Stride Scheduling - deterministic
+
+   1. lottery scheduling 相对于stride的优势： no global state，much easier to incorporate new process in a sensible manner.
+
+   ```c
+   curr = remove_min(queue); // pick client with min pass
+   schedule(curr); // run for quantum
+   curr->pass += curr->stride; // update pass using stride
+   insert(queue, curr); // return curr to queue
+   ```
+
+   
+
+5. The Linux Completely Fair Scheduler
+
+- Basic Operation:
+
+  - virtual time (vruntime)
+
+  - 引入 scheduler's_latenct = 48 ms, time slice = 48/n, 保证均分
+
+    - min_granualrity = 6ms，防止n太大sched_latency过低的情况：ensuring that not too much time is spent in sheduling overhead
+
+    - Weighting(niceness): Positive nice values imply lower priority and negative values imply higher priority;table对数性质，ratio一致
+
+    - 用红黑树：
+
+      - sleep，则从树种移去
+
+      - 关于I/O，回来后设成树里的最小值。
+- NOTE：
+  - 这个idea应用广泛，比如用于**虚拟机的资源分配**
+  - [why index-0?](https://www.cs.utexas.edu/users/EWD/ewd08xx/EWD831.PDF)：after all those centuries!— zero as a most natural number.
+- HW：
+  2. Not fair for the lower tickets jobs.
+  3. Lesser quantum size is fairer.
+
