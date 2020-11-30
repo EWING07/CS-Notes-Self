@@ -397,3 +397,94 @@ fairness metric
      4. at 10th time units
      5. Caches get cleared every 10 time units, it never run faster, 300/2 = 150.
 
+### The Abstraction: Address Spaces
+
+1. Early Systems
+2. Multiprogramming and time sharing
+3. Abstraction: the address space
+   1. code: the instruction
+   2. Stack: keep track of where it is in the function call chain as well as to allocate local variables and pass parameters and return values to and from routines.
+   3. Heap: for dynamically-allocated, user-managed memory,
+
+![image-20201110140515393](image-20201110140515393.png)
+
+4. The CURX: how to virtualize memory?
+
+   location of code : 0x109a39ec0
+
+   location of heap : 0x7fd6ba800000
+
+   location of stack : 0x7ffee61c800c
+
+5. [64位系统下进程的内存布局](https://blog.csdn.net/chenyijun/article/details/79441166)
+
+6. NOTE:
+   
+   - 用microkernels的思想实现isolation，机制和策略的分离
+
+### Interlude: Memory API
+
+- CRUX: How to allocate and manage memory?
+
+1. Types of Memory
+   - stack: allocations and deallocations of it are managed implicitly by the compiler for youm the programmer; (也叫做automitc memory)
+   - Heap: long-lived, where all allocations and deallocations are explicitly handled by you, the programmer
+2. The `malloc()` Call
+   - the cast is not needed for the correctness
+3. The `free()` Call
+4. Common Errors
+   - forget to free the memory: some languages have support for automatic memory management.
+   - forgeeting to allocate memory: use strip()
+   - Not allocating enough memory(**buffer overflow!!**): 
+   - forgetting to initialize allocated memory: 
+   - forgeeting to free memory(memory leak):
+   - freeing mmeory before you are donw with it
+   - freeing memory repeartedly
+   - those who write the kernel code have the toughest job of all...
+   - calling free() incorrectly
+5. Summary: 很多虐待memory的方式，可以看看purify和valgrind: both are excellent at helping you locate the source of your memory-related problems.
+6. Underlying OS Support: malloc和free不是系统调用，是library calls。
+   1. `brk`， 用来改变程序的break: 堆结束的位置。只有一个参数，然后增加或者减少堆的大小基于新的break比现在的break是大还是小。
+   2. 不要直接使用brk或者sbrk
+   3. mmap可以在你的程序中创建一个匿名内存区域-一个没有任何特定文件的交换空间
+7. Other calls
+   - Calloc(): 
+   - Realloc(): 
+8. HW:
+   - segmentation fault 
+   - learn how to use gdb and valgrind
+
+### Address Translation
+
+1. efficiency and control together are the two of the main goal of any modern operating system.
+
+2. **CRUX: how to effiently and flexibly virtualize memory**
+
+3. address translation: changing the virtual address provided by the instruction to a physical address.
+
+4. interposition 
+
+5. dynamic (hardware-based) relocation = base and bouds
+
+   - physical address = virtual address + base
+   - base and bounds register, 本质上是 MMU(memory management unit)
+   - bounds register两种方式：一个是size，一个是physical address
+
+6. static(software-based) relocation: loader，不安全，难以再次换位
+
+7. 一些硬件要素：寄存器、异常、内核态、privileged instructions
+
+   - 硬件和protection联系紧密
+
+8. OS需要的数据结构
+
+   - free list（定长进程内存）
+   - PCB(or process structure) 储存base和bounds的信息
+   - exception handler：掐掉过界的进程
+
+9. ![image-20201126113520153](image-20201126113520153.png)
+
+   问题：internal fragmentation，内存利用率不高 => segmentation
+
+10. ![image-20201126113545035](image-20201126113545035.png)
+

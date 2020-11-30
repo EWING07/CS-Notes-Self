@@ -152,3 +152,124 @@ JDK-Java Deleopment Kit，JRE-Java Runtime Environment
 1. java中允许一个类A声明在另一个类B中，则类A就是内部类，类B称为外部类
 2. 内部类的分类：成员内部类（静态、非静态） vs 局部内部类（方法内、代码块内、构造器内。
    1. 成员内部类：一方面，作为外部类的成员：调用外部类的结构，可被static修饰，可以被4种不同的权限修饰，另一方面，作为一个类：类内可以定义属性方法，构造器等，可以呗final修饰，表示此类不能被继承，可以呗abstract修饰。
+
+## Chapter 7 异常处理
+
+
+
+## Chapter 8 泛型程序设计
+
+1. 虚拟机中没有泛型，只有普通的类和方法。
+2. 所有的类型参数都用它们的限定类型替换
+3. 桥方法被合成来保持多态
+4. 为保持类型安全性，必要时插入强制类型转换。
+5. 类型擦除：虚拟机没有泛型对象，在定义一个泛型类型时，会自动提供其相对应的原始类型，即擦去类型变量，如果是限定的类型变量，则用第一个限定类型的代替，如果是无限定的类型变量，则用Object代替。
+
+## Chapter 9 集合
+
+1. Collection接口
+   1. add方法
+   2. Iterator迭代器对象：可以使用这个迭代器对象依次访问集合中的元素
+
+2. 迭代器：
+
+   Iterator接口包含四个方法：next(), hasNext(), remove, forEachRemaning
+
+   "for each"循环可以与任何实现了Iterable接口的对象一起工作， 这个接口只包含了一个抽象方法
+
+   collection接口扩展了Iterable接口。因此，对于标准类库中的任何集合都可以使用“for each”循环。
+
+   到JDK8时候还可以使用lambda表达式
+
+   remove方法将会删除上次调用next方法时返回的元素。next方法与其有互相依赖性。
+
+3. 泛型使用方法
+
+   ![image-20201116151312536](image-20201116151312536.png)
+
+4. 为什么要用ArrayList取代Vector呢？因为Vector类的所有方法都是同步的。
+5. 在java中hash table是由数组实现的。每个列表被称为桶。
+
+4. 映射
+   - TreeMap用键的整体顺序对元素进行排序，并将其组织成搜索树。
+
+## Chapter 14 并发
+
+1. 线程有6种状态：
+   - New
+   - Runnable
+   - Blocked
+   - Waiting
+   - Timed waiting
+   - Terminated
+
+2. Java线程状态变迁如下图：
+
+![image-20201123153824440](image-20201123153824440.png)
+
+​	当线程执行 `wait()`方法之后，线程进入 **WAITING（等待）** 状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状态，而 **TIME_WAITING(超时等待)** 状态相当于在等待状态的基础上增加了超时限制，比如通过 `sleep（long millis）`方法或 `wait（long millis）`方法可以将 Java 线程置于 TIMED WAITING 状态。当超时时间到达后 Java 线程将会返回到 RUNNABLE 状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到 **BLOCKED（阻塞）** 状态。线程在执行 Runnable 的`run()`方法之后将会进入到 **TERMINATED（终止）** 状态。
+
+3. 线程属性
+
+   - 线程优先级：
+
+     - from MIN_PRIORITY(0) to MAX_PRIORITY(10)，NORM_PRIORITY = 5
+     - 高度优先系统：例如在Windows中有七个优先级，在oracle为Linux提供的Java虚拟机中，线程的优先级被忽略--所有线程具有相同的优先级。
+
+   - 守护线程：daemon thread
+
+     - 唯一用途：为其他线程提供服务。
+     - 例如：计时线程，给其他线程或清空过时的高速缓存项的线程。
+     - 只剩下daemon thread的时候，虚拟机就退出了
+
+   - 未捕获异常处理器：
+
+     - 线程run方法不能抛出任何受查异常，但是，非受查异常会导致线程终止。在这种情况下，线程就死了。
+
+   - 同步
+
+     - race condition
+
+     - 如果能够确保线程在失去控制之前完成方法，那么银行账户对象的状态永远不会出现讹误。
+
+     - 锁对象：
+
+       - synchronized关键字：自动提供一个锁以及相关的“条件”
+
+       - reentrantLock保护代码块基本结构：
+
+         ```java
+         myLock.lock();// a ReentrantLock
+         try{
+           //critical section
+         }finally{
+           myLock.unlock(); // make sure the lock is nlocked even if an exception is thrown
+         }
+         ```
+
+         这一个结构确保任何时刻只有一个线程进入临界区。一旦一个线程封锁了锁对象，其他任何线程都无法通过lock语句。当其他线程调用lock时，它们被阻塞，直到第一个线程释放锁对象。
+
+     - 条件对象
+
+       - 使用一个条件对象来管理那些以及获得了一个锁但是却不能做有用工作的线程。
+       - signAll方法仅仅是通知正在等待的线程：此时有可能已经满足条件，值得再去检测该条件。
+       - signal方法从该条件的等待集中随机选择一个线程，解除其阻塞状态。
+       - 当一个线程拥有某个条件的锁时，它仅仅可以在该条件上调用await、signalAll或signal方法
+
+     - synchronized关键字
+
+       - ![image-20201123173749477](image-20201123173749477.png)
+
+       - 调用wait或notifyAll等价于await()和signalAll()
+       - 由锁来管理那些试图进入synchronized方法的线程，由条件来管理那些调用wait的线程。
+
+     - 同步阻塞
+       - 客户端锁定是非常脆弱的，因为类不一会对自己的所有可修改方法都使用内部锁。
+     - 监视器概念
+     - volatile域
+       - volatile关键字未实例域的同步访问提供了一种免锁机制。如果声明一个volatile，那么编译器和虚拟机就知道该域是可能被另外一个线程并发更新的。
+     - final变量
+     - 原子性
+       - 假设对共享变量除了赋值之外并不完成其他操作，那么可以将这些共享变量声明为volatile
+       - java.util.concurrent.atomic包里有很多类使用了高效的机器级指令：运行不会中断。
+     - 死锁

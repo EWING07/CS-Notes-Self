@@ -164,6 +164,8 @@
 - 面试题16: 数值的整数次发：快速幂
 - 面试题17: 打印从1到最大的n位数，递归，并且考虑0-9前0的处理。
 - 面试题18： 删除链表的节点：遍历删除。
+- 面试题19：正则匹配表达式，[解题思路](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/solution/zhu-xing-xiang-xi-jiang-jie-you-qian-ru-shen-by-je/)
+- 面试题20:  表示数字的字符串。
 
 ## 按照Tag
 
