@@ -95,6 +95,8 @@ I hear and I forget. I see and I remeber. I do and I understand.
                                  // current interrupt
  };
 ```
+![img](https://user-gold-cdn.xitu.io/2017/10/31/dffc20ef2fa8bfb5c6dde65ab9938c8d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
 - HW: run process-run.py
 - `-i IO_RUN_IMMIDIATE`发生IO的进程接下来会有IO的概率大，因此这样比较高效。
 
@@ -488,3 +490,111 @@ fairness metric
 
 10. ![image-20201126113545035](image-20201126113545035.png)
 
+### Segmentation
+
+**CRUX**：How to support a large address space?
+
+1. segmentaion violation or fault: refer to an illegal address
+
+2. chop up the address space into segmentys based on the top few bits of the virtual address.
+
+   - Used in the VAX/VMS system
+   - ![image-20201201140000618](image-20201201140000618.png)
+
+   
+
+   - 有的系统把code放在和heap同一个segment中，就用一位。
+   - stack的话加一个grows positive bit并且计算offset的绝对指与segment的size做比较
+
+3. support for sharing
+
+   - code sharing
+   - protection bits
+   - fine-grained sgementation：segment table
+   - coarse-grained
+
+   TIP：never allocating memory in variale-sized chunks
+
+4. OS support： 
+
+   - segment registers
+   - malloc
+   - manage free space
+     - 问题：external fragmentation
+     - 方案1: compaction： 消耗大；makes requests to grow existing segments hard to serve
+     - 方案2：free-list：best-fit，worst-fit，first-fit(address-based ordering，利于coalesce)，[buddy algorithm](https://blog.csdn.net/wan_hust/article/details/12688017) (块链表，合并)
+
+### Free-Space Management
+
+external fragmentation: the free space gets chopped into little pieces of difference sizes and is thus fragmented;
+
+![image-20201201150138614](image-20201201150138614.png)
+
+一个15字节的请求会失败。
+
+CRUX：How to manage free space
+
+1. assumption：the region is a single fixex size throughout its life
+
+   - memory分配给user之后，禁止compaction
+   - 重点在于external fragmentation
+
+2. Low-level mechanisms
+
+   - trackingt the size of allocated regions:
+     - ![image-20201201155049647](image-20201201155049647.png)
+   - - magic number是用来提供额外的完整性检验的
+     - 寻找chunck的时候需要加上header的大小
+
+3. - Embedding A Free List
+
+     ```c
+     typedef struct __node_t{
+       int size;
+       struct __node_t *next;
+     } node_t;
+     ```
+
+     遇到没有colaesce的解决方案：遍历list然后合并邻居chunks
+
+4. - Growing the heap
+     - sbrk
+
+3. Basic Strategies
+   - Best Fit：选合适里面最小的
+   - Worst Fit：与best fit相反
+   - First Fit：找第一个满足要求的，使用address-based ordering
+   - Next Fit：the next fit algorithm keeps an extra pointer to the location within the list where one was looking last.
+
+4. other approaches
+
+   - segregated lists: 针对高频的size
+     - Slab allocator: 利用这个特性，object caches, pre-initialized state lower overheads noticeably
+   - binary buddy allocator
+   - ![image-20201201164627112](image-20201201164627112.png)
+
+   
+
+   - Multiprocessor-based system: glibc allocator
+
+### Paging: Introduction
+
+Chop up space into fixed-sized pieces: we call it paging in virtual memory
+
+physical memory as an arry of fixed-sized slots called page frames
+
+**CRUX: How to virtualize memory with pages**
+
+1. simple example and overview 
+2. virtual address = VPN + offset
+
+<img src="image-20201209140340384.png" alt="image-20201209140340384" style="zoom:50%;" />
+
+address translation process: replace VPN with PFN
+
+<img src="image-20201209140452972.png" alt="image-20201209140452972" style="zoom:50%;" />
+
+### Paging: Faster Translations(TLBs)
+
+1. CRUX: how to speed up address translation
+2. TLB 是 MMU的一部分

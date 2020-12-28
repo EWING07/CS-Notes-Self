@@ -1,9 +1,15 @@
 # Heap Sort
 
+- **堆是具有以下性质的完全二叉树：每个结点的值都大于或等于其左右孩子结点的值，称为大顶堆；或者每个结点的值都小于或等于其左右孩子结点的值，称为小顶堆。如下图：**
+
+  ![img](https://images2015.cnblogs.com/blog/1024555/201612/1024555-20161217182750011-675658660.png)
+
 - complete Binary Tree: 从上往下，从左往右
+
 - parent > children
 
 - heapify
+
 - 用数组构建，parent_index = (child - 1)/2
 
 ```c
@@ -68,3 +74,47 @@ int main(){
 
 ```
 
+java版：
+
+```java
+public class HeapSort {
+    public int[] sortArray(int[] nums){
+        int len = nums.length;
+        //将数组整理成堆
+        heapify(nums);
+
+        for(int i = len - 1; i >= 1; ){
+            swap(nums, 0, i);
+            i--;
+            siftDown(nums,0,i);
+        }
+        return nums;
+    }
+    private  void heapify(int[] nums){
+        int len = nums.length;
+        for(int i = (len - 1)/2; i>=0; i--){
+            // 只需要从 i = (len - 1) / 2 这个位置开始逐层下移
+            siftDown(nums,i,len-1);
+        }
+    }
+    private void siftDown(int[] nums, int k, int end){
+        while (2 * k + 1 <= end){
+            int j = 2 * k + 1;
+            if(j + 1<= end && nums[j + 1] > nums[j]){
+                j++;
+            }
+            if(nums[j] > nums[k]){
+                swap(nums,j,k);
+            }else{
+                break;
+            }
+            k = j;
+        }
+    }
+    private void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
